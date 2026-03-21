@@ -312,7 +312,16 @@ require('lazy').setup({
     opts = {
       -- delay between pressing a key and opening which-key (milliseconds)
       delay = 0,
-      icons = { mappings = vim.g.have_nerd_font },
+      icons = {
+        mappings = vim.g.have_nerd_font,
+        keys = vim.g.have_nerd_font and {} or {
+          Space = '<space>',
+          Tab = '<tab>',
+          Esc = '<esc>',
+          BS = '<bs>',
+          C = '<ctrl>',
+        },
+      },
 
       -- Document existing key chains
       spec = {
@@ -411,8 +420,8 @@ require('lazy').setup({
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader><space>', builtin.find_files, { desc = '[ ] Search Files' })
-      vim.keymap.set('n', '<leader><tab>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader><space>', builtin.find_files, { desc = 'Search Files' })
+      vim.keymap.set('n', '<leader><tab>', builtin.buffers, { desc = 'Find existing buffers' })
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
@@ -778,6 +787,33 @@ require('lazy').setup({
         -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
         -- Adjusts spacing to ensure icons are aligned
         nerd_font_variant = 'mono',
+        kind_icons = vim.g.have_nerd_font and {} or {
+          Text = 'T',
+          Method = 'M',
+          Function = 'F',
+          Constructor = 'Cn',
+          Field = 'Fi',
+          Variable = 'V',
+          Class = 'C',
+          Interface = 'I',
+          Module = 'Mo',
+          Property = 'P',
+          Unit = 'U',
+          Value = 'Va',
+          Enum = 'E',
+          Keyword = 'K',
+          Snippet = 'S',
+          Color = 'Co',
+          File = 'Fi',
+          Reference = 'R',
+          Folder = 'Fo',
+          EnumMember = 'Em',
+          Constant = 'Cn',
+          Struct = 'St',
+          Event = 'Ev',
+          Operator = 'O',
+          TypeParameter = 'Tp',
+        },
       },
 
       completion = {
@@ -940,12 +976,12 @@ require('lazy').setup({
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
     icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
+      cmd = '✨',
+      config = '🪛',
+      event = '📬',
       ft = '📂',
-      init = '⚙',
-      keys = '🗝',
+      init = '⚙️',
+      keys = '🔑',
       plugin = '🔌',
       runtime = '💻',
       require = '🌙',
