@@ -385,13 +385,13 @@ do
   vim.pack.add { gh 'catppuccin/nvim' }
   ---@diagnostic disable-next-line: missing-fields
   require('catppuccin').setup {
-          auto_integration = true,
-          flavour = 'auto',
-          background = { -- :h background
-            light = 'latte',
-            dark = 'macchiato',
-          },
-        }
+    auto_integration = true,
+    flavour = 'auto',
+    background = { -- :h background
+      light = 'latte',
+      dark = 'macchiato',
+    },
+  }
 
   -- Load the colorscheme here.
   -- Like many other themes, this one has different styles, and you could load
@@ -502,7 +502,9 @@ do
     --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
     --   },
     -- },
-    -- pickers = {}
+    pickers = {
+      buffers = { sort_mru = true, ignore_current_buffer = true },
+    },
     extensions = {
       ['ui-select'] = { require('telescope.themes').get_dropdown() },
     },
@@ -524,7 +526,8 @@ do
   vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
   vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
   vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
-  vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+  vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = '[ ] Find files' })
+  vim.keymap.set('n', '<leader><Tab>', builtin.buffers, { desc = 'Find existing buffers' })
 
   -- Add Telescope-based LSP pickers when an LSP attaches to a buffer.
   -- If you later switch picker plugins, this is where to update these mappings.
@@ -704,7 +707,9 @@ do
     --    https://github.com/pmizio/typescript-tools.nvim
     --
     -- But for many setups, the LSP (`ts_ls`) will work just fine
-    -- ts_ls = {},
+    ts_ls = {},
+
+    intelephense = {},
 
     stylua = {}, -- Used to format Lua code
 
@@ -773,6 +778,21 @@ do
   for name, server in pairs(servers) do
     vim.lsp.config(name, server)
     vim.lsp.enable(name)
+  end
+
+  -- Laravel's official language server. It is distributed via Composer rather
+  -- than Mason, so install it with `composer global require laravel/lsp`.
+  --  See https://github.com/laravel/lsp
+  if vim.fn.executable 'laravel-lsp' == 1 then
+    vim.lsp.config('laravel_lsp', {
+      cmd = { 'laravel-lsp' },
+      filetypes = { 'php', 'blade' },
+      root_dir = function(bufnr, on_dir)
+        local root = vim.fs.root(bufnr, 'artisan')
+        if root then on_dir(root) end
+      end,
+    })
+    vim.lsp.enable 'laravel_lsp'
   end
 end
 
