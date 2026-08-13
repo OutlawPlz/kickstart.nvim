@@ -366,7 +366,16 @@ do
   require('which-key').setup {
     -- Delay between pressing a key and opening which-key (milliseconds)
     delay = 0,
-    icons = { mappings = vim.g.have_nerd_font },
+    icons = {
+      mappings = vim.g.have_nerd_font,
+      keys = vim.g.have_nerd_font and {} or {
+        Space = '<space>',
+        Tab = '<tab>',
+        Esc = '<esc>',
+        BS = '<bs>',
+        C = '<ctrl>',
+      },
+    },
     -- Document existing key chains
     spec = {
       { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
@@ -400,7 +409,19 @@ do
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }
-  require('todo-comments').setup { signs = false }
+  require('todo-comments').setup {
+    signs = false,
+    -- The default icons are Nerd Font glyphs, which show up in `:TodoTelescope`
+    keywords = vim.g.have_nerd_font and {} or {
+      FIX = { icon = '🐛' },
+      TODO = { icon = '📌' },
+      HACK = { icon = '🔥' },
+      WARN = { icon = '⚠️' },
+      PERF = { icon = '🚀' },
+      NOTE = { icon = '📝' },
+      TEST = { icon = '🧪' },
+    },
+  }
 
   -- [[ mini.nvim ]]
   --  A collection of various small independent plugins/modules
@@ -526,7 +547,7 @@ do
   vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
   vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
   vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
-  vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = '[ ] Find files' })
+  vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = 'Find files' })
   vim.keymap.set('n', '<leader><Tab>', builtin.buffers, { desc = 'Find existing buffers' })
 
   -- Add Telescope-based LSP pickers when an LSP attaches to a buffer.
@@ -888,6 +909,33 @@ do
       -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
       -- Adjusts spacing to ensure icons are aligned
       nerd_font_variant = 'mono',
+      kind_icons = vim.g.have_nerd_font and {} or {
+        Text = 'T',
+        Method = 'M',
+        Function = 'F',
+        Constructor = 'Cn',
+        Field = 'Fi',
+        Variable = 'V',
+        Class = 'C',
+        Interface = 'I',
+        Module = 'Mo',
+        Property = 'P',
+        Unit = 'U',
+        Value = 'Va',
+        Enum = 'E',
+        Keyword = 'K',
+        Snippet = 'S',
+        Color = 'Co',
+        File = 'Fi',
+        Reference = 'R',
+        Folder = 'Fo',
+        EnumMember = 'Em',
+        Constant = 'Cn',
+        Struct = 'St',
+        Event = 'Ev',
+        Operator = 'O',
+        TypeParameter = 'Tp',
+      },
     },
 
     completion = {
