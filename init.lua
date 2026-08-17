@@ -727,8 +727,12 @@ do
     -- Some languages (like typescript) have entire language plugins that can be useful:
     --    https://github.com/pmizio/typescript-tools.nvim
     --
-    -- But for many setups, the LSP (`ts_ls`) will work just fine
-    ts_ls = {},
+    -- But for many setups, the native TypeScript LSP will work just fine
+    ts_native = {
+      cmd = { 'tsc', '--lsp', '--stdio' },
+      filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+      root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
+    },
 
     intelephense = {},
 
